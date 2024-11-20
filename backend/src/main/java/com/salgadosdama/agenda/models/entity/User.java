@@ -9,13 +9,14 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
   private String name;
-  private long userType;
+  @ManyToOne
+  private Type userType;
   private int cpf;
 
   public User(){
   }
 
-  public User(String name, long userType, int cpf){
+  public User(String name, Type userType, int cpf){
     this.name = name;
     this.userType = userType;
     this.cpf = cpf;
@@ -29,11 +30,11 @@ public class User {
     this.name = name;
   }
 
-  public long getUserType(){
+  public Type getUserType(){
     return userType;
   }
 
-  public void setUserType(long userType){
+  public void setUserType(Type userType){
     this.userType = userType;
   }
   public int getCpf(){
