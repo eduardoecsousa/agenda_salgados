@@ -1,9 +1,9 @@
 package com.salgadosdama.agenda.models.repository;
 
-import com.salgadosdama.agenda.models.entity.User;
+import com.salgadosdama.agenda.models.entity.Savory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface SavoryRepository extends JpaRepository<Savory, Long> {
 }

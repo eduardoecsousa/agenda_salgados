@@ -3,6 +3,8 @@ package com.salgadosdama.agenda.models.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "types")
 public class Type {
@@ -10,6 +12,9 @@ public class Type {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
   private String nameType;
+
+  @OneToMany(mappedBy = "userType", cascade = CascadeType.ALL)
+  private List<User> users;
 
   public Type(){
 
@@ -19,11 +24,27 @@ public class Type {
     this.nameType = nameType;
   }
 
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+
   public String getNameType() {
     return nameType;
   }
 
   public void setNameType(String nameType) {
     this.nameType = nameType;
+  }
+
+  public List<User> getUsers() {
+    return users;
+  }
+
+  public void setUsers(List<User> users) {
+    this.users = users;
   }
 }

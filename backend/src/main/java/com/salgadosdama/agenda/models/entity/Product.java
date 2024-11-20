@@ -3,20 +3,24 @@ package com.salgadosdama.agenda.models.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "stock")
-public class Stock {
+@Table(name = "order_products")
+public class Product {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
-  @OneToOne(optional = false)
+  @ManyToOne
+  @JoinColumn(name = "id_order")
+  private Order idOrder;
+  @ManyToOne
   @JoinColumn(name = "id_savory")
   private Savory idSavory;
   private int quantity;
 
-  public Stock() {
+  public Product(){
 
   }
-  public Stock(Savory idSavory, int quantity) {
+  public Product(Order idOrder, Savory idSavory, int quantity){
+    this.idOrder = idOrder;
     this.idSavory = idSavory;
     this.quantity = quantity;
   }
@@ -29,12 +33,12 @@ public class Stock {
     this.id = id;
   }
 
-  public int getQuantity() {
-    return quantity;
+  public Order getIdOrder() {
+    return idOrder;
   }
 
-  public void setQuantity(int quantity) {
-    this.quantity = quantity;
+  public void setIdOrder(Order idOrder) {
+    this.idOrder = idOrder;
   }
 
   public Savory getIdSavory() {
@@ -43,5 +47,13 @@ public class Stock {
 
   public void setIdSavory(Savory idSavory) {
     this.idSavory = idSavory;
+  }
+
+  public int getQuantity() {
+    return quantity;
+  }
+
+  public void setQuantity(int quantity) {
+    this.quantity = quantity;
   }
 }

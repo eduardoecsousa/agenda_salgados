@@ -10,6 +10,7 @@ public class User {
   private long id;
   private String name;
   @ManyToOne
+  @JoinColumn(name = "user_type_id")
   private Type userType;
   private int cpf;
 
@@ -20,6 +21,14 @@ public class User {
     this.name = name;
     this.userType = userType;
     this.cpf = cpf;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
   }
 
   public String getName(){
