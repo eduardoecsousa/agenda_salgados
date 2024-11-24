@@ -12,12 +12,12 @@ public class User {
   @ManyToOne
   @JoinColumn(name = "user_type_id")
   private Type userType;
-  private int cpf;
+  private String cpf;
 
   public User(){
   }
 
-  public User(String name, Type userType, int cpf){
+  public User(String name, Type userType, String cpf){
     this.name = name;
     this.userType = userType;
     this.cpf = cpf;
@@ -46,11 +46,11 @@ public class User {
   public void setUserType(Type userType){
     this.userType = userType;
   }
-  public int getCpf(){
+  public String getCpf(){
     return cpf;
   }
 
-  public void setCpf(int cpf){
+  public void setCpf(String cpf){
     this.cpf = cpf;
   }
 

@@ -1,6 +1,7 @@
 package com.salgadosdama.agenda.models.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class Type {
   private String nameType;
 
   @OneToMany(mappedBy = "userType", cascade = CascadeType.ALL)
+  @JsonIgnore
   private List<User> users;
 
   public Type(){

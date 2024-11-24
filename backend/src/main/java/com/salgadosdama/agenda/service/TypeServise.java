@@ -28,4 +28,12 @@ public class TypeServise {
   public Type findById(Long id) throws TypeNotFoundException {
     return typeRepository.findById(id).orElseThrow(TypeNotFoundException::new);
   }
+
+  public Type deleteTypeById(Long id) throws TypeNotFoundException{
+    Type type = findById(id);
+
+    typeRepository.deleteById(id);
+
+    return type;
+  }
 }
