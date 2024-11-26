@@ -1,5 +1,6 @@
 package com.salgadosdama.agenda.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class Savory {
   private Stock stock;
 
   @OneToMany(mappedBy = "idSavory", cascade = CascadeType.ALL)
+  @JsonIgnore
   private List<Product> products;
 
 

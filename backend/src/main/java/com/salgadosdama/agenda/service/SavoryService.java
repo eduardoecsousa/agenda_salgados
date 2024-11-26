@@ -28,4 +28,12 @@ public class SavoryService {
   public Savory findById(Long id) throws SavoryNotFoundException {
     return savoryRepository.findById(id).orElseThrow(SavoryNotFoundException::new);
   }
+
+  public Savory deleteById(Long id) throws SavoryNotFoundException{
+    Savory savory = findById(id);
+
+    savoryRepository.deleteById(id);
+
+    return savory;
+  }
 }
