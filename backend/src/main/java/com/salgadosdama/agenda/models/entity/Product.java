@@ -1,5 +1,6 @@
 package com.salgadosdama.agenda.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,6 +11,7 @@ public class Product {
   private long id;
   @ManyToOne
   @JoinColumn(name = "id_order")
+  @JsonIgnore
   private Order idOrder;
   @ManyToOne
   @JoinColumn(name = "id_savory")

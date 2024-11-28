@@ -1,5 +1,6 @@
 package com.salgadosdama.agenda.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class Customer {
   private long phone;
 
   @OneToMany(mappedBy = "idCustomer", cascade = CascadeType.ALL)
+  @JsonIgnore
   private List<Order> orders;
   public Customer(){
 
@@ -50,11 +52,11 @@ public class Customer {
     this.cpf = cpf;
   }
 
-  public long getPhone() {
+  public Long getPhone() {
     return phone;
   }
 
-  public void setPhone(long phone) {
+  public void setPhone(Long phone) {
     this.phone = phone;
   }
 
