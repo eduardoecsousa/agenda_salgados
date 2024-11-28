@@ -11,8 +11,8 @@ public class Customer {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
   private String name;
-  private int cpf;
-  private int phone;
+  private String cpf;
+  private long phone;
 
   @OneToMany(mappedBy = "idCustomer", cascade = CascadeType.ALL)
   private List<Order> orders;
@@ -20,7 +20,7 @@ public class Customer {
 
   }
 
-  public Customer(String name, int cpf, int phone){
+  public Customer(String name, String cpf, long phone){
     this.name = name;
     this.cpf = cpf;
     this.phone = phone;
@@ -42,19 +42,19 @@ public class Customer {
     this.name = name;
   }
 
-  public int getCpf() {
+  public String getCpf() {
     return cpf;
   }
 
-  public void setCpf(int cpf) {
+  public void setCpf(String cpf) {
     this.cpf = cpf;
   }
 
-  public int getPhone() {
+  public long getPhone() {
     return phone;
   }
 
-  public void setPhone(int phone) {
+  public void setPhone(long phone) {
     this.phone = phone;
   }
 
