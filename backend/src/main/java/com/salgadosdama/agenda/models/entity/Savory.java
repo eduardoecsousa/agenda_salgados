@@ -14,6 +14,7 @@ public class Savory {
   private String nameSavory;
 
   @OneToOne(mappedBy = "idSavory", cascade = CascadeType.ALL)
+  @JsonIgnore
   private Stock stock;
 
   @OneToMany(mappedBy = "idSavory", cascade = CascadeType.ALL)
