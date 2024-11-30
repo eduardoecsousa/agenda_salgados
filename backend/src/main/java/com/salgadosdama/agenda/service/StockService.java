@@ -44,4 +44,12 @@ public class StockService {
 
     return stock;
   }
+
+  public Stock update(Long id, Stock stock) throws StockNotFoundException {
+    Stock fromStock = findById(id);
+
+    fromStock.setQuantity(stock.getQuantity());
+
+    return stockRepository.save(fromStock);
+  }
 }

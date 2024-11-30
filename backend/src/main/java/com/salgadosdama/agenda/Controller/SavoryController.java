@@ -24,7 +24,7 @@ public class SavoryController {
   @PostMapping
   public SavoryDto createSavory(@RequestBody CreateSavoryDto createSavoryDto){
     return SavoryDto.fromEntity(
-            savoryService.create(createSavoryDto.toEntity())
+            savoryService.create(createSavoryDto.toEntity(), createSavoryDto.quantity())
     );
   }
 

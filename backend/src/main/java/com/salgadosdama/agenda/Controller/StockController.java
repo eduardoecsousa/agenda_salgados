@@ -49,4 +49,12 @@ public class StockController {
             stockService.deleteById(id)
     );
   }
+
+  @PutMapping("/{id}")
+  public StockDto updateStock(@PathVariable Long id,
+                              @RequestBody CreateStockDto createStockDto) throws StockNotFoundException {
+    return StockDto.fromEntity(
+            stockService.update(id, createStockDto.toEntity())
+    );
+  }
 }
