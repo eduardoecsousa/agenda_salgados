@@ -5,6 +5,7 @@ import com.salgadosdama.agenda.Controller.dto.OrderDto;
 import com.salgadosdama.agenda.models.entity.Order;
 import com.salgadosdama.agenda.service.OrderService;
 import com.salgadosdama.agenda.service.exception.CustomerNotFoundException;
+import com.salgadosdama.agenda.service.exception.OrderNotFoundException;
 import com.salgadosdama.agenda.service.exception.SavoryNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class OrderController {
   }
 
   @PostMapping
-  public OrderDto createOrder(@RequestBody CreatedOrderDto createdOrderDto) throws SavoryNotFoundException, CustomerNotFoundException {
+  public OrderDto createOrder(@RequestBody CreatedOrderDto createdOrderDto) throws SavoryNotFoundException, CustomerNotFoundException, OrderNotFoundException {
     return OrderDto.fromEntity(
             orderService.createNewOrder(createdOrderDto.toEntity(), createdOrderDto.products())
     );

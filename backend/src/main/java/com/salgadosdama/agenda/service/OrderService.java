@@ -9,6 +9,7 @@ import com.salgadosdama.agenda.models.repository.OrderRepository;
 import com.salgadosdama.agenda.models.repository.ProductRepository;
 import com.salgadosdama.agenda.models.repository.SavoryRepository;
 import com.salgadosdama.agenda.service.exception.CustomerNotFoundException;
+import com.salgadosdama.agenda.service.exception.OrderNotFoundException;
 import com.salgadosdama.agenda.service.exception.SavoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,20 +33,19 @@ public class OrderService {
     this.customerRepository = customerRepository;
   }
 
-  public Order createNewOrder(Order order, List<Product> products) throws SavoryNotFoundException, CustomerNotFoundException {
+  public Order createNewOrder(Order order, List<Product> products) throws SavoryNotFoundException, CustomerNotFoundException, OrderNotFoundException {
     Customer customer = customerRepository.findById(order.getIdCustomer().getId())
             .orElseThrow(CustomerNotFoundException::new);
     order.setIdCustomer(customer);
     Order newOrder = orderRepository.save(order);
-
     for(Product product : products){
-      Savory savory = savoryRepository.findById(product.getId())
+      Savory savory = savoryRepository.findById(product.getIdSavory().getId())
               .orElseThrow(SavoryNotFoundException::new);
       product.setIdSavory(savory);
       product.setIdOrder(newOrder);
       productRepository.save(product);
     }
-    return newOrder;
+    return orderRepository.findById(newOrder.getId()).orElseThrow(OrderNotFoundException::new);
   }
 
   public List<Order> findAllOrder(){
