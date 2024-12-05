@@ -23,7 +23,7 @@ public class OrderController {
   @PostMapping
   public OrderDto createOrder(@RequestBody CreatedOrderDto createdOrderDto) throws SavoryNotFoundException, CustomerNotFoundException, OrderNotFoundException {
     return OrderDto.fromEntity(
-            orderService.createNewOrder(createdOrderDto.toEntity(), createdOrderDto.products())
+            orderService.createNewOrder(createdOrderDto)
     );
   }
 

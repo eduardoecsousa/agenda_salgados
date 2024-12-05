@@ -8,9 +8,7 @@ import org.aspectj.weaver.ast.Or;
 import java.time.LocalDate;
 import java.util.List;
 
-public record CreatedOrderDto(Customer idCustomer, LocalDate date, Boolean completed,List<Product> products) {
+public record CreatedOrderDto(Long idCustomer, LocalDate date, Boolean completed,List<CreateProductDto> products) {
 
-  public Order toEntity(){
-    return new Order(idCustomer, date, completed);
-  }
+
 }

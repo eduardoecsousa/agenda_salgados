@@ -1,5 +1,7 @@
 package com.salgadosdama.agenda.service;
 
+import com.salgadosdama.agenda.Controller.dto.CreateProductDto;
+import com.salgadosdama.agenda.Controller.dto.CreatedOrderDto;
 import com.salgadosdama.agenda.models.entity.Customer;
 import com.salgadosdama.agenda.models.entity.Order;
 import com.salgadosdama.agenda.models.entity.Product;
@@ -33,19 +35,24 @@ public class OrderService {
     this.customerRepository = customerRepository;
   }
 
-  public Order createNewOrder(Order order, List<Product> products) throws SavoryNotFoundException, CustomerNotFoundException, OrderNotFoundException {
-    Customer customer = customerRepository.findById(order.getIdCustomer().getId())
+  public Order createNewOrder(CreatedOrderDto createdOrderDto) throws SavoryNotFoundException, CustomerNotFoundException, OrderNotFoundException {
+    Order order = new Order();
+    order.setCompleted(createdOrderDto.completed());
+    order.setDate(createdOrderDto.date());
+    Customer customer = customerRepository.findById(createdOrderDto.idCustomer())
             .orElseThrow(CustomerNotFoundException::new);
     order.setIdCustomer(customer);
     Order newOrder = orderRepository.save(order);
-    for(Product product : products){
-      Savory savory = savoryRepository.findById(product.getIdSavory().getId())
+    for(CreateProductDto createProductDto : createdOrderDto.products()){
+      Savory savory = savoryRepository.findById(createProductDto.idSavory())
               .orElseThrow(SavoryNotFoundException::new);
-      product.setIdSavory(savory);
+      Product product = new Product();
       product.setIdOrder(newOrder);
+      product.setIdSavory(savory);
+      product.setQuantity(createProductDto.quantity());
       productRepository.save(product);
     }
-    return orderRepository.findById(newOrder.getId()).orElseThrow(OrderNotFoundException::new);
+    return newOrder;
   }
 
   public List<Order> findAllOrder(){
