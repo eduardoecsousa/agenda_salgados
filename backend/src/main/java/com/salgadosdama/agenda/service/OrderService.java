@@ -35,24 +35,38 @@ public class OrderService {
     this.customerRepository = customerRepository;
   }
 
-  public Order createNewOrder(CreatedOrderDto createdOrderDto) throws SavoryNotFoundException, CustomerNotFoundException, OrderNotFoundException {
+  public Order createNewOrder(CreatedOrderDto createdOrderDto) throws SavoryNotFoundException, CustomerNotFoundException {
+    Order order = createAndSaveOrder(createdOrderDto);
+
+    addProductsToOrder(order, createdOrderDto.products());
+
+    return order;
+  }
+
+  private Order createAndSaveOrder(CreatedOrderDto createdOrderDto) throws CustomerNotFoundException {
+    Customer customer = customerRepository.findById(createdOrderDto.idCustomer())
+            .orElseThrow(CustomerNotFoundException::new);
+
     Order order = new Order();
     order.setCompleted(createdOrderDto.completed());
     order.setDate(createdOrderDto.date());
-    Customer customer = customerRepository.findById(createdOrderDto.idCustomer())
-            .orElseThrow(CustomerNotFoundException::new);
     order.setIdCustomer(customer);
-    Order newOrder = orderRepository.save(order);
-    for(CreateProductDto createProductDto : createdOrderDto.products()){
-      Savory savory = savoryRepository.findById(createProductDto.idSavory())
+
+    return orderRepository.save(order);
+  }
+
+  private void addProductsToOrder(Order order, List<CreateProductDto> products) throws SavoryNotFoundException {
+    for (CreateProductDto productDto : products) {
+      Savory savory = savoryRepository.findById(productDto.idSavory())
               .orElseThrow(SavoryNotFoundException::new);
+
       Product product = new Product();
-      product.setIdOrder(newOrder);
+      product.setIdOrder(order);
       product.setIdSavory(savory);
-      product.setQuantity(createProductDto.quantity());
+      product.setQuantity(productDto.quantity());
+
       productRepository.save(product);
     }
-    return newOrder;
   }
 
   public List<Order> findAllOrder(){
