@@ -6,6 +6,8 @@ import com.salgadosdama.agenda.models.entity.Savory;
 import com.salgadosdama.agenda.service.SavoryService;
 import com.salgadosdama.agenda.service.exception.SavoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.plaf.PanelUI;
@@ -22,10 +24,10 @@ public class SavoryController {
   }
 
   @PostMapping
-  public SavoryDto createSavory(@RequestBody CreateSavoryDto createSavoryDto){
-    return SavoryDto.fromEntity(
+  public ResponseEntity<SavoryDto> createSavory(@RequestBody CreateSavoryDto createSavoryDto){
+    return ResponseEntity.status(HttpStatus.CREATED).body(SavoryDto.fromEntity(
             savoryService.create(createSavoryDto.toEntity(), createSavoryDto.quantity())
-    );
+    ));
   }
 
   @GetMapping

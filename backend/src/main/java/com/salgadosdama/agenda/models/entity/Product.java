@@ -18,13 +18,16 @@ public class Product {
   private Savory idSavory;
   private int quantity;
 
+  private boolean active;
+
   public Product(){
 
   }
-  public Product(Order idOrder, Savory idSavory, int quantity){
+  public Product(Order idOrder, Savory idSavory, int quantity, boolean active){
     this.idOrder = idOrder;
     this.idSavory = idSavory;
     this.quantity = quantity;
+    this.active = active;
   }
 
   public long getId() {
@@ -57,5 +60,13 @@ public class Product {
 
   public void setQuantity(int quantity) {
     this.quantity = quantity;
+  }
+
+  public boolean isActive() {
+    return active;
+  }
+
+  public void setActive(boolean active) {
+    this.active = active;
   }
 }

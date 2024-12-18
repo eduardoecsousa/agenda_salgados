@@ -5,6 +5,8 @@ import com.salgadosdama.agenda.Controller.dto.CustomerDto;
 import com.salgadosdama.agenda.service.CustomerService;
 import com.salgadosdama.agenda.service.exception.CustomerNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,10 +22,10 @@ public class CustomerController {
   }
 
   @PostMapping
-  public CustomerDto createCustomer(@RequestBody CreatingCustomerDto creatingCustomerDto){
-    return CustomerDto.fromEntity(
+  public ResponseEntity<CustomerDto> createCustomer(@RequestBody CreatingCustomerDto creatingCustomerDto){
+    return ResponseEntity.status(HttpStatus.CREATED).body(CustomerDto.fromEntity(
             customerService.createCustomer(creatingCustomerDto.toEntity())
-    );
+    ));
   }
 
   @GetMapping
