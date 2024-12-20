@@ -37,7 +37,7 @@ public class OrderService {
     this.stockRepository = stockRepository;
   }
 
-  public Order createNewOrder(CreatedOrderDto createdOrderDto) throws SavoryNotFoundException, CustomerNotFoundException {
+  public Order createNewOrder(CreatedOrderDto createdOrderDto) throws SavoryNotFoundException, CustomerNotFoundException, OrderNotFoundException, ProductNotFoundException {
     Order order = createAndSaveOrder(createdOrderDto);
 
     addProductsToOrder(order, createdOrderDto.products());
@@ -94,7 +94,7 @@ public class OrderService {
     Order oldOrder = orderRepository.findById(id)
             .orElseThrow(OrderNotFoundException::new);
 
-    List<Product> products = productRepository.findByIdOrderActive(oldOrder, true);
+    List<Product> products = productRepository.findByIdOrderAndActive(oldOrder, true);
     updateProductsToOrder(products);
     Customer customer = verifyCustomer(order.idCustomer());
     oldOrder.setIdCustomer(customer);
@@ -103,8 +103,8 @@ public class OrderService {
     orderRepository.save(oldOrder);
 
     return oldOrder;
-  }
 
+  }
 
   public List<Order> findAllOrder(){
     return orderRepository.findAll();
