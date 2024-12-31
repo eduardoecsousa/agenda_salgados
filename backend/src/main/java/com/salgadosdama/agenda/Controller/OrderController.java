@@ -48,4 +48,12 @@ public class OrderController {
             orderService.updateOrder(id, createdOrderDto)
     );
   }
+
+  @DeleteMapping("/{id}")
+  public OrderDto deteleOrder(@PathVariable long id) throws OrderNotFoundException {
+    return OrderDto.fromEntity(
+            orderService.deteleOrderById(id)
+    );
+
+  }
 }

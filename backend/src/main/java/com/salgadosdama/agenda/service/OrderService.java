@@ -1,5 +1,6 @@
 package com.salgadosdama.agenda.service;
 
+import ch.qos.logback.core.joran.conditional.ThenAction;
 import com.salgadosdama.agenda.Controller.dto.CreatedOrderDto;
 import com.salgadosdama.agenda.models.entity.Customer;
 import com.salgadosdama.agenda.models.entity.Order;
@@ -75,5 +76,18 @@ public class OrderService {
 
   public List<Order> findAllOrder(){
     return orderRepository.findAll();
+  }
+
+  public Order deteleOrderById(long id) throws OrderNotFoundException {
+    Order order = orderRepository.findById(id)
+            .orElseThrow(OrderNotFoundException::new);
+
+    try {
+      orderRepository.deleteById(id);
+    } catch (Exception e) {
+      new Exception("Error delete");
+    }
+
+    return order;
   }
 }
