@@ -20,16 +20,16 @@ public class Order {
   @OneToMany(mappedBy = "idOrder", cascade = CascadeType.ALL)
   private List<Product> products;
 
-  private Boolean completed;
+  private Boolean active;
 
   public Order(){
 
   }
 
-  public Order(Customer idCustomer, LocalDate date, Boolean completed){
+  public Order(Customer idCustomer, LocalDate date, Boolean active){
     this.idCustomer = idCustomer;
     this.date = date;
-    this.completed = completed;
+    this.active = active;
   }
 
   public long getId() {
@@ -64,11 +64,11 @@ public class Order {
     this.products = products;
   }
 
-  public Boolean getCompleted() {
-    return completed;
+  public Boolean getActive() {
+    return active;
   }
 
-  public void setCompleted(Boolean completed) {
-    this.completed = completed;
+  public void setActive(Boolean active) {
+    this.active = active;
   }
 }

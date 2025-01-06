@@ -52,7 +52,7 @@ public class OrderController {
   @DeleteMapping("/{id}")
   public OrderDto deteleOrder(@PathVariable long id) throws OrderNotFoundException {
     return OrderDto.fromEntity(
-            orderService.deteleOrderById(id)
+            orderService.deleteOrderById(id)
     );
 
   }

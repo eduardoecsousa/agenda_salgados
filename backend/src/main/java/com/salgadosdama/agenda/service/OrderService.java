@@ -4,6 +4,7 @@ import ch.qos.logback.core.joran.conditional.ThenAction;
 import com.salgadosdama.agenda.Controller.dto.CreatedOrderDto;
 import com.salgadosdama.agenda.models.entity.Customer;
 import com.salgadosdama.agenda.models.entity.Order;
+import com.salgadosdama.agenda.models.entity.Product;
 import com.salgadosdama.agenda.models.repository.*;
 import com.salgadosdama.agenda.service.exception.CustomerNotFoundException;
 import com.salgadosdama.agenda.service.exception.OrderNotFoundException;
@@ -51,7 +52,7 @@ public class OrderService {
     Customer customer = verifyCustomer(createdOrderDto.idCustomer());
 
     Order order = new Order();
-    order.setCompleted(createdOrderDto.completed());
+    order.setActive(true);
     order.setDate(createdOrderDto.date());
     order.setIdCustomer(customer);
 
@@ -78,7 +79,7 @@ public class OrderService {
     return orderRepository.findAll();
   }
 
-  public Order deteleOrderById(long id) throws OrderNotFoundException {
+  public Order deleteOrderById(long id) throws OrderNotFoundException {
     Order order = orderRepository.findById(id)
             .orElseThrow(OrderNotFoundException::new);
 
@@ -89,5 +90,18 @@ public class OrderService {
     }
 
     return order;
+  }
+
+  public Order orderCompleted(long id) throws OrderNotFoundException {
+    Order order = orderRepository.findById(id)
+            .orElseThrow(OrderNotFoundException::new);
+
+    productService.completedProduct(order);
+
+    order.setActive(false);
+
+    return orderRepository.save(order);
+
+
   }
 }

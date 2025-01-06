@@ -1,0 +1,22 @@
+-put, para finalizar um pedido
+    .ele deve subtrair o que esta em estoque
+    .mudar o booleanos de order e de products
+
+-get, para products
+    .deve pegar todos os pedidos "ativos"
+    .somar todos os salgados de acordo com o seu tipo
+    .implementar uma forma de pegar os salgados encomendados na semana
+    .ou determinar entre quais dias voce quer a quantidade de salgado.
+
+-Não esquecer de implementar usuario no Order
+
+-implementar login e authentication
+
+-implementar middlewares(verificar se a necessidade).
+
+-caso tiver tempo, implementar testes
+
+
+-Se não tiver mais nada, iniciar front
+-tentar fazer no figma ou achar ferramenta mais simples
+

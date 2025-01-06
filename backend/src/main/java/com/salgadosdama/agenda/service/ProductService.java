@@ -4,9 +4,11 @@ import com.salgadosdama.agenda.Controller.dto.CreateProductDto;
 import com.salgadosdama.agenda.models.entity.Order;
 import com.salgadosdama.agenda.models.entity.Product;
 import com.salgadosdama.agenda.models.entity.Savory;
+import com.salgadosdama.agenda.models.entity.Stock;
 import com.salgadosdama.agenda.models.repository.OrderRepository;
 import com.salgadosdama.agenda.models.repository.ProductRepository;
 import com.salgadosdama.agenda.models.repository.SavoryRepository;
+import com.salgadosdama.agenda.models.repository.StockRepository;
 import com.salgadosdama.agenda.service.exception.OrderNotFoundException;
 import com.salgadosdama.agenda.service.exception.ProductNotFoundException;
 import com.salgadosdama.agenda.service.exception.SavoryNotFoundException;
@@ -20,12 +22,14 @@ public class ProductService {
   private final ProductRepository productRepository;
   private final OrderRepository orderRepository;
   private final SavoryRepository savoryRepository;
+  private final StockRepository stockRepository;
 
   @Autowired
-  public ProductService(ProductRepository productRepository, OrderRepository orderRepository, SavoryRepository savoryRepository) {
+  public ProductService(ProductRepository productRepository, OrderRepository orderRepository, SavoryRepository savoryRepository, StockRepository stockRepository) {
     this.productRepository = productRepository;
     this.orderRepository = orderRepository;
     this.savoryRepository = savoryRepository;
+    this.stockRepository = stockRepository;
   }
 
   public List<Product> findByIdOrder(Long id) throws OrderNotFoundException {
@@ -78,5 +82,18 @@ public class ProductService {
     }
     return productRepository.findByIdOrder(order);
   }
+
+  public void completedProduct(Order order){
+    List<Product> products = productRepository.findByIdOrderAndActive(order);
+
+    for (Product product : products) {
+      Stock stock = stockRepository.findByIdSavory(product.getIdSavory());
+      stock.setQuantity(stock.getQuantity() - product.getQuantity());
+      stockRepository.save(stock);
+      product.setActive(false);
+      productRepository.save(product);
+    }
+  }
+
 
 }
