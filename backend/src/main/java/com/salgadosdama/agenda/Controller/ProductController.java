@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/products")
@@ -46,5 +47,12 @@ public class ProductController {
             .map(ProductDto::fromEntity)
             .toList();
   }
+
+  @GetMapping("/active")
+  public List<Map<String, Object>> findByAllActive(){
+    return productService.getQuantityForSavory();
+  }
+
+
 }
 

@@ -15,7 +15,11 @@ import com.salgadosdama.agenda.service.exception.SavoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -83,8 +87,8 @@ public class ProductService {
     return productRepository.findByIdOrder(order);
   }
 
-  public void completedProduct(Order order){
-    List<Product> products = productRepository.findByIdOrderAndActive(order);
+  public void completedProduct(Order order) {
+    List<Product> products = productRepository.findByIdOrderAndActive(order, true);
 
     for (Product product : products) {
       Stock stock = stockRepository.findByIdSavory(product.getIdSavory());
@@ -95,5 +99,21 @@ public class ProductService {
     }
   }
 
+  public List<Product> getProductsActive(){
+    List<Product> products = productRepository.findByActive(true);
 
+    return products;
+  }
+
+  public List<Map<String, Object>> getQuantityForSavory(){
+    List<Object[]> products = productRepository.addQuantityBySavory();
+
+    return products.stream().map(product -> {
+      Map<String, Object> map = new HashMap<>();
+      map.put("idSavory", product[0]);
+      map.put("nameSavory", product[1]);
+      map.put("totalQuantity", product[2]);
+      return map;
+    }).collect(Collectors.toList());
+  }
 }

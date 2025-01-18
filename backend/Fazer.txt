@@ -1,6 +1,6 @@
--put, para finalizar um pedido
-    .ele deve subtrair o que esta em estoque
-    .mudar o booleanos de order e de products
+    -put, para finalizar um pedido
+        .ele deve subtrair o que esta em estoque
+        .mudar o booleanos de order e de products
 
 -get, para products
     .deve pegar todos os pedidos "ativos"
