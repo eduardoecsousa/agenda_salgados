@@ -1,10 +1,8 @@
 package com.salgadosdama.agenda.service;
 
-import ch.qos.logback.core.joran.conditional.ThenAction;
 import com.salgadosdama.agenda.Controller.dto.CreatedOrderDto;
 import com.salgadosdama.agenda.models.entity.Customer;
 import com.salgadosdama.agenda.models.entity.Order;
-import com.salgadosdama.agenda.models.entity.Product;
 import com.salgadosdama.agenda.models.repository.*;
 import com.salgadosdama.agenda.service.exception.CustomerNotFoundException;
 import com.salgadosdama.agenda.service.exception.OrderNotFoundException;
@@ -23,6 +21,7 @@ public class OrderService {
   private final StockRepository stockRepository;
   private final ProductService productService;
 
+  //CONSTRUCTOR
   @Autowired
   public OrderService(OrderRepository orderRepository,
                       SavoryRepository savoryRepository, CustomerRepository customerRepository, StockRepository stockRepository, ProductService productService) {
@@ -33,6 +32,7 @@ public class OrderService {
     this.productService = productService;
   }
 
+  //CRIA NOVA ORDER
   public Order createNewOrder(CreatedOrderDto createdOrderDto) throws SavoryNotFoundException, CustomerNotFoundException, OrderNotFoundException, ProductNotFoundException {
     Order order = createAndSaveOrder(createdOrderDto);
 
@@ -41,6 +41,7 @@ public class OrderService {
     return order;
   }
 
+  //VERIFICA SE O CUSTOMER EXISTE
   private Customer verifyCustomer(Long id) throws CustomerNotFoundException {
     Customer customer = customerRepository.findById(id)
             .orElseThrow(CustomerNotFoundException::new);
@@ -48,6 +49,7 @@ public class OrderService {
     return customer;
   }
 
+  //CRIA E SAVE A ORDER NO BD
   private Order createAndSaveOrder(CreatedOrderDto createdOrderDto) throws CustomerNotFoundException {
     Customer customer = verifyCustomer(createdOrderDto.idCustomer());
 
@@ -59,7 +61,7 @@ public class OrderService {
     return orderRepository.save(order);
   }
 
-
+  //ATUALIZA ORDER
   public Order updateOrder(long id, CreatedOrderDto order) throws OrderNotFoundException, ProductNotFoundException, CustomerNotFoundException, SavoryNotFoundException {
     Order oldOrder = orderRepository.findById(id)
             .orElseThrow(OrderNotFoundException::new);
@@ -75,10 +77,12 @@ public class OrderService {
 
   }
 
+  //BUSCA TODOS AS ORDERS
   public List<Order> findAllOrder(){
     return orderRepository.findAll();
   }
 
+  //DELETA ORDER
   public Order deleteOrderById(long id) throws OrderNotFoundException {
     Order order = orderRepository.findById(id)
             .orElseThrow(OrderNotFoundException::new);
@@ -92,6 +96,7 @@ public class OrderService {
     return order;
   }
 
+  //FINALIZA ORDER
   public Order orderCompleted(long id) throws OrderNotFoundException {
     Order order = orderRepository.findById(id)
             .orElseThrow(OrderNotFoundException::new);

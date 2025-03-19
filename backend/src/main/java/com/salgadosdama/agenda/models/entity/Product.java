@@ -18,12 +18,12 @@ public class Product {
   private Savory idSavory;
   private int quantity;
 
-  private boolean active;
+  private Boolean active;
 
   public Product(){
 
   }
-  public Product(Order idOrder, Savory idSavory, int quantity, boolean active){
+  public Product(Order idOrder, Savory idSavory, int quantity, Boolean active){
     this.idOrder = idOrder;
     this.idSavory = idSavory;
     this.quantity = quantity;

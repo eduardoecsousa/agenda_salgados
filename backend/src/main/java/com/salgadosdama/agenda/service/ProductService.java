@@ -28,6 +28,7 @@ public class ProductService {
   private final SavoryRepository savoryRepository;
   private final StockRepository stockRepository;
 
+  //constructor
   @Autowired
   public ProductService(ProductRepository productRepository, OrderRepository orderRepository, SavoryRepository savoryRepository, StockRepository stockRepository) {
     this.productRepository = productRepository;
@@ -36,16 +37,19 @@ public class ProductService {
     this.stockRepository = stockRepository;
   }
 
+  //busco produto pelo id
   public List<Product> findByIdOrder(Long id) throws OrderNotFoundException {
     Order order = orderRepository.findById(id)
             .orElseThrow(OrderNotFoundException::new);
     return productRepository.findByIdOrder(order);
   }
 
+  //busca todos os products;
   public List<Product> findAllProducts(){
     return productRepository.findAll();
   }
 
+  //Atualiza os produtos
   private void updateProductsToOrder(CreateProductDto product) throws ProductNotFoundException, SavoryNotFoundException {
     Product oldProduct = productRepository.findById(product.id())
             .orElseThrow(ProductNotFoundException::new);
@@ -60,6 +64,7 @@ public class ProductService {
 
   }
 
+  //Cria novo produto de acordo com o pedido
   public void addProductsToOrder(Order order,CreateProductDto productDto) throws SavoryNotFoundException, ProductNotFoundException, OrderNotFoundException {
 
     Savory savory = savoryRepository.findById(productDto.idSavory())
@@ -74,6 +79,7 @@ public class ProductService {
 
   }
 
+  //Delega se ele atualiza ou cria um novo
   public List<Product> updateOrAddProductsForOrder(long idOrder, List<CreateProductDto> createProductDtos) throws OrderNotFoundException, SavoryNotFoundException, ProductNotFoundException {
     Order order = orderRepository.findById(idOrder)
             .orElseThrow(OrderNotFoundException::new);
@@ -87,6 +93,7 @@ public class ProductService {
     return productRepository.findByIdOrder(order);
   }
 
+  //Finaliza o produto
   public void completedProduct(Order order) {
     List<Product> products = productRepository.findByIdOrderAndActive(order, true);
 
@@ -99,12 +106,14 @@ public class ProductService {
     }
   }
 
+  //Busco o products ativos
   public List<Product> getProductsActive(){
     List<Product> products = productRepository.findByActive(true);
 
     return products;
   }
 
+  //Retorna a quatidade total de savory de Order ativas
   public List<Map<String, Object>> getQuantityForSavory(){
     List<Object[]> products = productRepository.addQuantityBySavory();
 
