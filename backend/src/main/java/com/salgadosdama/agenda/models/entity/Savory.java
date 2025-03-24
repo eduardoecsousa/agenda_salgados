@@ -13,21 +13,28 @@ public class Savory {
   private long id;
   private String nameSavory;
 
-  @OneToOne(mappedBy = "idSavory", cascade = CascadeType.ALL)
-  @JsonIgnore
-  private Stock stock;
-
   @OneToMany(mappedBy = "idSavory", cascade = CascadeType.ALL)
   @JsonIgnore
   private List<Product> products;
+
+  private Integer quantity;
 
 
   public Savory(){
 
   }
 
-  public Savory(String nameSavory){
+  public Savory(String nameSavory, Integer quantity){
     this.nameSavory = nameSavory;
+    this.quantity = quantity;
+  }
+
+  public Integer getQuantity() {
+    return quantity;
+  }
+
+  public void setQuantity(Integer quantity) {
+    this.quantity = quantity;
   }
 
   public long getId() {
@@ -46,13 +53,7 @@ public class Savory {
     this.nameSavory = nameSavory;
   }
 
-  public Stock getStock() {
-    return stock;
-  }
 
-  public void setStock(Stock stock) {
-    this.stock = stock;
-  }
 
   public List<Product> getProducts() {
     return products;

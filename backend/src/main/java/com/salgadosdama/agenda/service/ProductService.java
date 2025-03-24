@@ -4,11 +4,9 @@ import com.salgadosdama.agenda.Controller.dto.CreateProductDto;
 import com.salgadosdama.agenda.models.entity.Order;
 import com.salgadosdama.agenda.models.entity.Product;
 import com.salgadosdama.agenda.models.entity.Savory;
-import com.salgadosdama.agenda.models.entity.Stock;
 import com.salgadosdama.agenda.models.repository.OrderRepository;
 import com.salgadosdama.agenda.models.repository.ProductRepository;
 import com.salgadosdama.agenda.models.repository.SavoryRepository;
-import com.salgadosdama.agenda.models.repository.StockRepository;
 import com.salgadosdama.agenda.service.exception.OrderNotFoundException;
 import com.salgadosdama.agenda.service.exception.ProductNotFoundException;
 import com.salgadosdama.agenda.service.exception.SavoryNotFoundException;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,15 +23,13 @@ public class ProductService {
   private final ProductRepository productRepository;
   private final OrderRepository orderRepository;
   private final SavoryRepository savoryRepository;
-  private final StockRepository stockRepository;
 
   //constructor
   @Autowired
-  public ProductService(ProductRepository productRepository, OrderRepository orderRepository, SavoryRepository savoryRepository, StockRepository stockRepository) {
+  public ProductService(ProductRepository productRepository, OrderRepository orderRepository, SavoryRepository savoryRepository) {
     this.productRepository = productRepository;
     this.orderRepository = orderRepository;
     this.savoryRepository = savoryRepository;
-    this.stockRepository = stockRepository;
   }
 
   //busco produto pelo id
@@ -98,9 +93,11 @@ public class ProductService {
     List<Product> products = productRepository.findByIdOrderAndActive(order, true);
 
     for (Product product : products) {
-      Stock stock = stockRepository.findByIdSavory(product.getIdSavory());
-      stock.setQuantity(stock.getQuantity() - product.getQuantity());
-      stockRepository.save(stock);
+      Savory savory = savoryRepository.findById(product.getIdSavory().getId())
+              .orElseThrow();
+      savory.setQuantity(savory.getQuantity() - product.getQuantity());
+      if (savory.getQuantity() < 0) savory.setQuantity(0);
+      savoryRepository.save(savory);
       product.setActive(false);
       productRepository.save(product);
     }

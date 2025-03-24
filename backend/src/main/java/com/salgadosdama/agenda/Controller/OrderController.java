@@ -2,6 +2,7 @@ package com.salgadosdama.agenda.Controller;
 
 import com.salgadosdama.agenda.Controller.dto.CreatedOrderDto;
 import com.salgadosdama.agenda.Controller.dto.OrderDto;
+import com.salgadosdama.agenda.models.entity.Order;
 import com.salgadosdama.agenda.service.OrderService;
 import com.salgadosdama.agenda.service.ProductService;
 import com.salgadosdama.agenda.service.exception.CustomerNotFoundException;
@@ -41,11 +42,27 @@ public class OrderController {
             .toList();
   }
 
+  @GetMapping("/active")
+  public List<OrderDto> findAllOrderActive(){
+    return orderService.findAllOrderActive()
+            .stream()
+            .map(OrderDto::fromEntity)
+            .toList();
+  }
+
   @PutMapping("/{id}")
   public OrderDto updateOrder(@PathVariable Long id, @RequestBody CreatedOrderDto createdOrderDto) throws OrderNotFoundException, ProductNotFoundException, CustomerNotFoundException, SavoryNotFoundException {
     productService.updateOrAddProductsForOrder(id, createdOrderDto.products());
     return OrderDto.fromEntity(
             orderService.updateOrder(id, createdOrderDto)
+    );
+  }
+
+  @PutMapping("/complete/{id}")
+  public OrderDto completeOrderForId(@PathVariable Long id) throws OrderNotFoundException, ProductNotFoundException, CustomerNotFoundException, SavoryNotFoundException {
+    Order order = orderService.orderCompleted(id);
+    return OrderDto.fromEntity(
+            order
     );
   }
 

@@ -18,17 +18,15 @@ public class OrderService {
   private final OrderRepository orderRepository;
   private final SavoryRepository savoryRepository;
   private final CustomerRepository customerRepository;
-  private final StockRepository stockRepository;
   private final ProductService productService;
 
   //CONSTRUCTOR
   @Autowired
   public OrderService(OrderRepository orderRepository,
-                      SavoryRepository savoryRepository, CustomerRepository customerRepository, StockRepository stockRepository, ProductService productService) {
+                      SavoryRepository savoryRepository, CustomerRepository customerRepository, ProductService productService) {
     this.orderRepository = orderRepository;
     this.savoryRepository = savoryRepository;
     this.customerRepository = customerRepository;
-    this.stockRepository = stockRepository;
     this.productService = productService;
   }
 
@@ -80,6 +78,11 @@ public class OrderService {
   //BUSCA TODOS AS ORDERS
   public List<Order> findAllOrder(){
     return orderRepository.findAll();
+  }
+
+  //BUSCA TODOS AS ORDERS ATIVAS
+  public List<Order> findAllOrderActive(){
+    return orderRepository.findByActive(true);
   }
 
   //DELETA ORDER

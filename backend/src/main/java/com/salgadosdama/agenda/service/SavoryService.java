@@ -1,9 +1,7 @@
 package com.salgadosdama.agenda.service;
 
 import com.salgadosdama.agenda.models.entity.Savory;
-import com.salgadosdama.agenda.models.entity.Stock;
 import com.salgadosdama.agenda.models.repository.SavoryRepository;
-import com.salgadosdama.agenda.models.repository.StockRepository;
 import com.salgadosdama.agenda.service.exception.SavoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,17 +11,14 @@ import java.util.List;
 @Service
 public class SavoryService {
   private final SavoryRepository savoryRepository;
-  private final StockRepository stockRepository;
 
   @Autowired
-  public SavoryService(SavoryRepository savoryRepository, StockRepository stockRepository) {
+  public SavoryService(SavoryRepository savoryRepository) {
     this.savoryRepository = savoryRepository;
-    this.stockRepository = stockRepository;
   }
 
-  public Savory create(Savory savory, int quantity){
+  public Savory create(Savory savory){
     Savory newSavory =  savoryRepository.save(savory);
-    stockRepository.save(new Stock(newSavory, quantity));
     return newSavory;
   }
 
