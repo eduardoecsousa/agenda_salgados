@@ -15,6 +15,10 @@ public class Order {
   @ManyToOne
   @JoinColumn(name = "id_customer")
   private Customer idCustomer;
+
+//  @ManyToOne
+//  @JoinColumn(name = "id_user")
+//  private User idUser;
   private LocalDate date;
 
   @OneToMany(mappedBy = "idOrder", cascade = CascadeType.ALL)
