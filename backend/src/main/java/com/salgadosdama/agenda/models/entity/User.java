@@ -1,5 +1,6 @@
 package com.salgadosdama.agenda.models.entity;
 
+import com.salgadosdama.agenda.security.security.Role;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,9 +14,8 @@ public class User implements UserDetails {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
   private String name;
-  @ManyToOne
-  @JoinColumn(name = "user_type_id")
-  private Type userType;
+
+  private Role role;
   private String cpf;
 
   @Column(unique = true)
@@ -25,9 +25,9 @@ public class User implements UserDetails {
   public User(){
   }
 
-  public User(String name, Type userType, String cpf, String username, String password){
+  public User(String name, Role role, String cpf, String username, String password){
     this.name = name;
-    this.userType = userType;
+    this.role = role;
     this.cpf = cpf;
     this.username = username;
     this.password = password;
@@ -49,12 +49,12 @@ public class User implements UserDetails {
     this.name = name;
   }
 
-  public Type getUserType(){
-    return userType;
+  public Role getRole(){
+    return role;
   }
 
-  public void setUserType(Type userType){
-    this.userType = userType;
+  public void setRole(Role role){
+    this.role = role;
   }
   public String getCpf(){
     return cpf;

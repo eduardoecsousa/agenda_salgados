@@ -3,7 +3,6 @@ package com.salgadosdama.agenda.Controller;
 import com.salgadosdama.agenda.Controller.dto.CreateUserDto;
 import com.salgadosdama.agenda.Controller.dto.UserDto;
 import com.salgadosdama.agenda.models.entity.User;
-import com.salgadosdama.agenda.service.TypeServise;
 import com.salgadosdama.agenda.service.UserService;
 import com.salgadosdama.agenda.service.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +15,9 @@ import java.util.List;
 @RequestMapping(value = "/users")
 public class UserController {
   private final UserService userService;
-  private final TypeServise typeServise;
 
   @Autowired
-  public UserController(UserService userService, TypeServise typeServise) {
-    this.typeServise = typeServise;
+  public UserController(UserService userService) {
     this.userService = userService;
   }
 
