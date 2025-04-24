@@ -7,6 +7,7 @@ import com.salgadosdama.agenda.service.UserService;
 import com.salgadosdama.agenda.service.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class UserController {
   }
 
   @GetMapping
+  @Secured("ADMIN")
   public List<UserDto> getAllUsers(){
     List<User> allUsers = userService.findAll();
     return allUsers.stream()
